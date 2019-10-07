@@ -5,7 +5,9 @@ const app=express();
 const port=8000  //const port=1021 
 
 //use express router
-app.use('/',require('./routes'))   
+app.use('/',require('./routes'))
+
+app.use('view engine','ejs')
 
 app.listen(port,function(err){
     if(err){
