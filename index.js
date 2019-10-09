@@ -2,7 +2,10 @@ const express = require('express')
 
 const app=express();
 
-const port=8000  //const port=1021 
+//const port=8000  
+const port=1021 
+
+app.use(express.static('./assets'))
 
 const expressLayout=require('express-ejs-layouts')
 
