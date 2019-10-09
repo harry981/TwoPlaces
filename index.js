@@ -8,6 +8,10 @@ const port=1021
 app.use(express.static('./assets'))
 
 const expressLayout=require('express-ejs-layouts')
+//extract styles and scripts of sub pages into layout 
+
+app.set('layout extractStyles',true);
+app.set('layoutScripts',true);
 
 app.use(expressLayout);
 
