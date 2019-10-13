@@ -10,5 +10,6 @@ console.log("Router Loaded")
 
 router.get('/',homeController.home)
 router.use('/users',require('./users'))
+router.use('/signin',require('./signInUp'))
 
 module.exports=router;
