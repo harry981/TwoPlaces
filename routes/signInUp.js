@@ -8,5 +8,6 @@ console.log("SignInUp Router Loaded")
 
 router.get('/',signInUpController.signIn)
 router.get('/signup',signInUpController.signUp)
+router.post('/signup/create',signInUpController.create)
 
 module.exports=router;
