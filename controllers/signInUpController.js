@@ -1,10 +1,18 @@
 const User=require('../models/user')
 
 module.exports.signIn=function(req,res){
+    if(req.isAuthenticated()){
+       return res.redirect('/users')
+    }
+   // console.log(req.isAuthenticated())
     return res.render('user_sign_in',{title:"Codial | Sign In"})
 }
 
 module.exports.signUp=function(req,res){
+    if(req.isAuthenticated()){
+        return res.redirect('/users')
+    }
+    //console.log(req.isAuthenticated())
     return res.render('user_sign_up',{title:"Codial | Sign Up"})
 }
 
