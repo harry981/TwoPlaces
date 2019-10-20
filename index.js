@@ -5,9 +5,9 @@ const app=express();
 const cookieParser=require('cookie-parser')
 
 //used for session cookie
-const expressSession=require('express-session')
+const session=require('express-session')
 const passport=require('passport')
-const passportLocal=require('passport-local')
+const passportLocal=require('./config/passport-local-strategy')
 
 app.use(express.urlencoded())
 app.use(cookieParser());
@@ -29,8 +29,6 @@ app.set('layoutScripts',true);
 
 app.use(expressLayout);
 
-//use express router
-app.use('/',require('./routes'))
 
 app.set('view engine','ejs')
 
@@ -40,13 +38,18 @@ app.use(session({
     name:'Codial',
     //TODO Change the script before deployment in production mode
     secret:'Harshit',
-    saveUninitialized:false,
+    saveUninitialized:true,
     resave:false,
     cookie:{maxAge:1000*60*100} 
 }))
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(passport.setAuthenticatedUser)
+
+//use express router
+app.use('/',require('./routes'))
 
 
 app.listen(port,function(err){
