@@ -5,7 +5,7 @@ const Post =require('../models/post')
 module.exports.create=function(req,res){
     Post.findById(req.body.post,function(err,post){
         if(post){
-            comment.create({
+            comment.create(({
                 content:req.body.content,
                 post:req.body.post,
                 user:req.user._id 
@@ -21,7 +21,7 @@ module.exports.create=function(req,res){
                 post.save();//whenever you update an object do save so that changes are made in the database also 
 
                 res.redirect('back')
-            }
+            })
         }
     })
 }
