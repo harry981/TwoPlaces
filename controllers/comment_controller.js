@@ -25,3 +25,20 @@ module.exports.create=function(req,res){
         }
     })
 }
+
+module.exports.destroy=function(req,res){
+    comment.findById(req.params.id,function(err,comment){
+        if(comment.user==req.user.id){
+
+            let postid=comment.post;
+            comment.remove();
+            //$pull pulls/throws the comment with particular id 
+            Post.findByIdAndUpdate(postid,{$pull:{comments:req.params.id}},function(err,post){
+               return res.redirect('back')
+            })
+        }
+        else{
+            return res.redirect('back')
+        }
+    })
+}
