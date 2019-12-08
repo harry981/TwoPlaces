@@ -34,6 +34,8 @@ const db=require('./config/mongoose')
 
 
 app.use(express.static('./assets'))
+//make the uploads path available to the browser
+app.use('/uploads',express.static(__dirname+'/uploads'))
 
 const expressLayout=require('express-ejs-layouts')
 //extract styles and scripts of sub pages into layout 
