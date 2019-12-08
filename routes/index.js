@@ -14,4 +14,7 @@ router.use('/signin',require('./signInUp'))
 router.use('/posts',require('./posts'))
 router.use('/comment',require('./comments'))
 
+//api routes
+router.use('/api',require('./api/index'))
+
 module.exports=router;
