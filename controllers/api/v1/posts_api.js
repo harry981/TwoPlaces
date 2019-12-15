@@ -24,7 +24,7 @@ module.exports.index=async function(req,res){
 module.exports.destroy=async function(req,res){
     let post=await Post.findById(req.params.id)
 try{
-//    if(post.user==req.user.id){
+    if(post.user==req.user.id){
         post.remove();
 
         await Comment.deleteMany({post:req.params.id})
@@ -33,12 +33,15 @@ try{
             message:"Post and associated comments deleted !"
         })
 
-  //  }
-    //else{
+    }
+    else{
         
-    //     req.flash('error','Unable to delete the post')
-    //     return res.redirect('back')
-    // //}
+         //req.flash('error','Unable to delete the post')
+         //return res.redirect('back')
+         return res.json(401,{
+             message:"You cannot delete this post"
+         })
+   }
 }
 catch(err){
 return res.json(500,{
