@@ -1,11 +1,13 @@
-const comment=require('../models/comment')
+const Comment=require('../models/comment')
 
 const Post =require('../models/post')
+
+const commentsMailer=require('../mailers/comments_mailer')
 
 module.exports.create=function(req,res){
     Post.findById(req.body.post,function(err,post){
         if(post){
-            comment.create(({
+            Comment.create(({
                 content:req.body.content,
                 post:req.body.post,
                 user:req.user._id 
@@ -20,7 +22,17 @@ module.exports.create=function(req,res){
                 console.log('updated')
                 post.save();//whenever you update an object do save so that changes are made in the database also 
 
-                res.redirect('back')
+                comment=await comment.populate('user','name email').execPopulate();
+                commentsMailer.newComment(comment)
+                if(req.xhr){
+                    return res.status(200).json({
+                        data:{
+                            comment:comment
+                        },
+                        message:"Post Created"
+                    })
+                }
+                res.redirect('/')
             })
         }
     })
