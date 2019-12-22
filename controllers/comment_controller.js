@@ -4,6 +4,8 @@ const Post =require('../models/post')
 
 const commentsMailer=require('../mailers/comments_mailer')
 
+const commentEmailWorker=require('../workers/comment_email_worker')
+
 module.exports.create=function(req,res){
     Post.findById(req.body.post,function(err,post){
         if(post){
@@ -23,7 +25,13 @@ module.exports.create=function(req,res){
                 post.save();//whenever you update an object do save so that changes are made in the database also 
 
                 comment=await comment.populate('user','name email').execPopulate();
-                commentsMailer.newComment(comment)
+                //commentsMailer.newComment(comment)
+                let job= queueMicrotask.create('emails',comment).save(function(err){
+                    if(err){
+                        console.log('error in creating a queue',err)
+                    }
+                    console.log(job.id)
+                })
                 if(req.xhr){
                     return res.status(200).json({
                         data:{
